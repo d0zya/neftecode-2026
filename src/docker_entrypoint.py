@@ -13,9 +13,25 @@ OUTPUT_DIR = Path("/output")
 EXPECTED_CHECKPOINTS = 2
 
 
-def count_checkpoints(artifacts_dir: Path) -> int:
-    return len(list(artifacts_dir.glob("deepset_sum_*.pt")))
+#def count_checkpoints(artifacts_dir: Path) -> int:
+#    return len(list(artifacts_dir.glob("deepset_sum_*.pt")))
 
+def count_checkpoints(artifacts_dir: Path) -> int:
+    files = list(artifacts_dir.glob("deepset_sum_*.pt"))
+    count = len(files)
+    
+    if count < EXPECTED_CHECKPOINTS:
+        src = OUTPUT_DIR / "artifacts"
+        if src.exists():
+            src_files = list(src.glob("deepset_sum_*.pt"))
+            if src_files:
+                artifacts_dir.mkdir(parents=True, exist_ok=True)
+                for f in src_files:
+                    shutil.copy2(f, artifacts_dir / f.name)
+                count = len(list(artifacts_dir.glob("deepset_sum_*.pt")))
+                print(f"Restored {len(src_files)} checkpoint(s) from {src}", flush=True)
+    
+    return count
 
 def run_command(args: list[str]) -> None:
     completed = subprocess.run(args, cwd=SRC_DIR)
@@ -29,6 +45,7 @@ def copy_artifacts_to_output() -> None:
     for pt_file in ARTIFACTS_DIR.glob("deepset_sum_*.pt"):
         shutil.copy2(pt_file, dest / pt_file.name)
     print(f"Copied artifacts to {dest}", flush=True)
+
 
 
 def main() -> None:
