@@ -263,5 +263,5 @@ docker run --rm -v "$(pwd)/output:/output" neftecode-solution
 |     | Имя | GitHub | Позиция |
 |-----|-----|--------|---------|
 | 1. | Баталев Вадим | [**d0zya**](https://github.com/d0zya) | ML |
-| 2. | Лунегова Дарья | [**long_on_fire**](https://github.com/lung-on-fire) | ML |
+| 2. | Лунегова Дарья | [**lung_on_fire**](https://github.com/lung-on-fire) | ML |
 | 3. | Леонович Илья | [**Rectorator**](https://github.com/Rectorator) | ML |
